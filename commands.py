@@ -216,6 +216,25 @@ def sample_5():
                         command = f"group_rank({fundamental}, {group}) * rank(ts_mean(volume, {day1}) / ts_mean(volume, {day2}))"
                         commands.append(command)
     return commands
+
+
+def sample_6():
+    commands = []
+    D1 = [20, 30, 50, 100]
+    D2 = [30, 50, 100]
+    for d1 in D2:
+        for d2 in D1:
+            for d3 in D1:
+                for sent in research_sent_field:
+                    for p1 in PRICES:
+                        for p2 in PRICES:
+                            if p1 == p2:
+                                continue
+                            for p3 in PRICES:
+                                command = f'ts_mean(ts_backfill({sent},{d1}), {d2}) * ts_mean(({p1} - {p2}) / {p3}, {d3})'
+                                commands.append(command)
+    return commands
+
 if __name__ == '__main__':
     funcs = [scale_and_corr, from_wq_1, from_wq_2, from_wq_3, from_arxiv, sample_1, sample_2, sample_3, sample_4]
     [print(f.__name__, len(f())) for f in funcs]

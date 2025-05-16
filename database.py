@@ -210,3 +210,23 @@ doubao_fields_1 = [
 "operating_income /current_assets", # 流动资产的营业利润率，衡量流动资产的经营效益
 "liabilities /current_assets", # 流动资产的负债比率，衡量流动资产的负债程度
 ]
+
+research_sent_field = [
+'snt1_d1_netrecpercent',
+'snt1_d1_analystcoverage',
+'snt1_d1_earningsrevision',
+    'snt1_d1_downtargetpercent',
+    'snt1_cored1_score',
+    'snt1_d1_nettargetpercent',
+    'snt1_d1_dtstsespe,'
+    'snt1_d1_earningssurprise',
+    'snt1_d1_buyrecpercent',
+    'snt1_d1_fundamentalfocusrank',
+    'snt1_d1_uptargetpercent',
+    'snt1_d1_sellrecpercent',
+    'snt1_d1_longtermepsgrowthest,'
+    'snt1_d1_stockrank',
+    'snt1_d1_earningstorpedo',
+    'snt1_d1_netearningsrevision',
+    'snt1_d1_dynamicfocusrank'
+]

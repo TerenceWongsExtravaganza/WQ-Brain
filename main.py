@@ -121,7 +121,18 @@ class WQSession(requests.Session):
                         subsharpe = check['value']
                 try:    subsharpe
                 except: subsharpe = -1
+                while True:
+                    compare_r = self.get(f'https://api.worldquantbrain.com/competitions/IQC2025S1/alphas/{alpha_link}/before-and-after-performance')
+                    if compare_r.content:
+                        try:
+                            score = compare_r.json()['score']; break
+                        except:
+                            pass
+                    time.sleep(2.5)
+                score_delta = score['after'] - score['before']
+                logging.info(f'{thread} -- Score delta: {score_delta}')
                 row = [
+                    score_delta,
                     passed, delay, region,
                     neutralization, decay, truncation,
                     r['is']['sharpe'],
@@ -144,6 +155,7 @@ class WQSession(requests.Session):
             with open(csv_file, 'w', newline='') as f:
                 writer = csv.writer(f)
                 header = [
+                    'score',
                     'passed', 'delay', 'region', 'neutralization', 'decay', 'truncation',
                     'sharpe', 'fitness', 'turnover', 'weight',
                     'subsharpe', 'correlation', 'universe', 'link', 'code'
@@ -156,7 +168,7 @@ class WQSession(requests.Session):
         return [sim for sim in data if sim not in self.rows_processed]
 
 if __name__ == '__main__':
-    DATA = parameters.functD1(commands.sample_5())
+    DATA = parameters.functD1(commands.sample_6())[74:]
     TOTAL_ROWS = len(DATA)
     while DATA:
         wq = WQSession()
