@@ -129,10 +129,18 @@ class WQSession(requests.Session):
                         except:
                             pass
                     time.sleep(2.5)
+                while True:
+                    corr = self.get(f'https://api.worldquantbrain.com/alphas/{alpha_link}/correlations/self')
+                    if corr.content:
+                        try:
+                            corr = corr.json()['max']; break
+                        except:
+                            pass
+                    time.sleep(2.5)
                 score_delta = score['after'] - score['before']
                 logging.info(f'{thread} -- Score delta: {score_delta}')
                 row = [
-                    score_delta,
+                    score_delta, corr,
                     passed, delay, region,
                     neutralization, decay, truncation,
                     r['is']['sharpe'],
@@ -155,7 +163,7 @@ class WQSession(requests.Session):
             with open(csv_file, 'w', newline='') as f:
                 writer = csv.writer(f)
                 header = [
-                    'score',
+                    'score', 'selfcorr',
                     'passed', 'delay', 'region', 'neutralization', 'decay', 'truncation',
                     'sharpe', 'fitness', 'turnover', 'weight',
                     'subsharpe', 'correlation', 'universe', 'link', 'code'
@@ -168,7 +176,7 @@ class WQSession(requests.Session):
         return [sim for sim in data if sim not in self.rows_processed]
 
 if __name__ == '__main__':
-    DATA = parameters.functD1(commands.sample_6())[74:]
+    DATA = parameters.functD1(commands.sample_5())
     TOTAL_ROWS = len(DATA)
     while DATA:
         wq = WQSession()

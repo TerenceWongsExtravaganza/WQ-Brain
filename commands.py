@@ -207,7 +207,7 @@ def sample_5():
     commands = []
     D1 = [10, 20, 30, 50, 100, 150, 200 ,252]
     D2 = [90, 100,150,200,252]
-    groups = ["market", "sector", "industry", "subindustry"]
+    groups = ["sector", "industry", "subindustry"]
     for group in groups:
         for day1 in D1:
             for day2 in D2:
