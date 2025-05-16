@@ -121,23 +121,30 @@ class WQSession(requests.Session):
                         subsharpe = check['value']
                 try:    subsharpe
                 except: subsharpe = -1
-                while True:
+                for i in range(3):
                     compare_r = self.get(f'https://api.worldquantbrain.com/competitions/IQC2025S1/alphas/{alpha_link}/before-and-after-performance')
                     if compare_r.content:
                         try:
                             score = compare_r.json()['score']; break
                         except:
                             pass
-                    time.sleep(2.5)
-                while True:
+                    time.sleep(4)
+                    if i == 2:
+                        score = 'NA'
+                for i in range(3):
                     corr = self.get(f'https://api.worldquantbrain.com/alphas/{alpha_link}/correlations/self')
                     if corr.content:
                         try:
                             corr = corr.json()['max']; break
                         except:
                             pass
-                    time.sleep(2.5)
-                score_delta = score['after'] - score['before']
+                    time.sleep(4)
+                    if i == 2:
+                        corr = 'NA'
+                if score != 'NA':
+                    score_delta = score['after'] - score['before']
+                else:
+                    score_delta = 'NA'
                 logging.info(f'{thread} -- Score delta: {score_delta}')
                 row = [
                     score_delta, corr,
