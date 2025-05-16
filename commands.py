@@ -192,6 +192,30 @@ def sample_3():
                     commands.append(command)
     return commands
 
+def sample_4():
+    commands = []
+    D1 = [1, 2, 5, 10, 20, 30, 50, 100]
+    D2 = [2, 5, 10, 20, 30, 50, 100]
+    for day1 in D1:
+        for day2 in D2:
+            for datafields in doubao_fields_1:
+                command = f"my_group = sector; my_group2 = bucket(rank(cap),range='0,1,0.1'); alpha=rank(group_rank(ts_decay_linear(volume/ts_sum(volume,252),{day1}),my_group)*group_rank(ts_rank(vec_avg({datafields}),{day2}),my_group)*group_rank(-ts_delta(close,5),my_group)); trade_when(volume>adv20,group_neutralize(alpha,my_group2),-1)"
+                commands.append(command)
+    return commands
+
+def sample_5():
+    commands = []
+    D1 = [10, 20, 30, 50, 100, 150, 200 ,252]
+    D2 = [90, 100,150,200,252]
+    groups = ["market", "sector", "industry", "subindustry"]
+    for group in groups:
+        for day1 in D1:
+            for day2 in D2:
+                for fundamental in doubao_fields_1:
+                    if (day2 > day1):
+                        command = f"group_rank({fundamental}, {group}) * rank(ts_mean(volume, {day1}) / ts_mean(volume, {day2}))"
+                        commands.append(command)
+    return commands
 if __name__ == '__main__':
-    funcs = [scale_and_corr, from_wq_1, from_wq_2, from_wq_3, from_arxiv, sample_1, sample_2, sample_3]
+    funcs = [scale_and_corr, from_wq_1, from_wq_2, from_wq_3, from_arxiv, sample_1, sample_2, sample_3, sample_4]
     [print(f.__name__, len(f())) for f in funcs]

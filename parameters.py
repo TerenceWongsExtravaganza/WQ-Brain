@@ -9,12 +9,60 @@ DATA = [{
     'universe': 'TOP3000',
     'region': 'USA',
     'code': 'open + close'
-}, {
-    'neutralization': 'SECTOR',
-    'decay': 10,
-    'truncation': 0.1,
-    'delay': 1,
-    'universe': 'TOP3000',
-    'region': 'CHN',
-    'code': 'open - close'
 }]
+
+def functD1(alphas):
+    res = []
+    for alpha in alphas:
+        # Simulate the alpha
+        simulationSubIndustry = {
+            'neutralization': 'SUBINDUSTRY',
+            'decay': 10,
+            'truncation': 0.1,
+            'delay': 1,
+            'universe': 'TOP3000',
+            'region': 'USA',
+            'code': alpha
+        }
+        # Simulate the alpha
+        simulation = {
+            'neutralization': 'NONE',
+            'decay': 10,
+            'truncation': 0.1,
+            'delay': 1,
+            'universe': 'TOP3000',
+            'region': 'USA',
+            'code': alpha
+        }
+        res.append(simulationSubIndustry)
+        res.append(simulation)
+    return res
+
+def functD0(alphas):
+    res = []
+    universe = ["TOP3000", "TOP500", "TOP1000"]
+    for alpha in alphas:
+        for universes in universe:
+            # Simulate the alpha
+            simulationSubIndustry = {
+                'neutralization': 'SUBINDUSTRY',
+                'decay': 10,
+                'truncation': 0.1,
+                'delay': 0,
+                'universe': universes,
+                'region': 'USA',
+                'code': alpha
+            }
+            # Simulate the alpha
+            simulation = {
+                'neutralization': 'NONE',
+                'decay': 10,
+                'truncation': 0.1,
+                'delay': 0,
+                'universe': universes,
+                'region': 'USA',
+                'code': alpha
+            }
+            res.append(simulationSubIndustry)
+            res.append(simulation)
+    return res
