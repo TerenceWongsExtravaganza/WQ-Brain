@@ -183,7 +183,7 @@ class WQSession(requests.Session):
         return [sim for sim in data if sim not in self.rows_processed]
 
 if __name__ == '__main__':
-    DATA = parameters.functD1(commands.sample_5())
+    DATA = parameters.functD1(commands.sample_1())
     TOTAL_ROWS = len(DATA)
     while DATA:
         wq = WQSession()
